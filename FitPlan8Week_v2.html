@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FitPlan">
+<meta name="theme-color" content="#0d0f0e">
+<title>FitPlan — 8 Week Transformation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--bg:#0d0f0e;--bg2:#161917;--bg3:#1e2220;--sur:#242826;--bdr:rgba(255,255,255,0.07);--bdr2:rgba(255,255,255,0.13);--tx:#edecea;--tx2:#9a9e9b;--tx3:#636660;--gr:#7eca8f;--gr2:#5db872;--gr-bg:rgba(126,202,143,0.12);--am:#e8b86d;--am-bg:rgba(232,184,109,0.12);--co:#e07b6a;--co-bg:rgba(224,123,106,0.12);--bl:#6eaee8;--bl-bg:rgba(110,174,232,0.12);--pu:#a98fe8;--pu-bg:rgba(169,143,232,0.12);--r:14px;--rs:8px;--nh:64px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%;height:-webkit-fill-available}
+body{height:100vh;height:-webkit-fill-available;overflow:hidden;background:var(--bg);color:var(--tx);font-family:'DM Sans',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.shell{max-width:430px;height:100%;height:-webkit-fill-available;margin:0 auto;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.sbar{height:50px;padding:14px 20px 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--bg)}
+.stime{font-family:'DM Mono',monospace;font-size:15px;font-weight:500}
+.sicons{font-size:12px;color:var(--tx2)}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{display:none}
+.bnav{height:var(--nh);background:var(--bg2);border-top:0.5px solid var(--bdr);display:flex;align-items:center;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0)}
+.ni{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:8px 0;flex:1;border:none;background:transparent;-webkit-appearance:none}
+.nicon{font-size:22px;line-height:1;color:var(--tx3)}
+.nlbl{font-size:9px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--tx3)}
+.ni.on .nicon,.ni.on .nlbl{color:var(--gr)}
+.page{display:none;padding:16px 16px 32px}
+.page.on{display:block;animation:fu .18s ease}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+h1.pt{font-family:'Fraunces',Georgia,serif;font-size:28px;font-weight:600;line-height:1.1;margin-bottom:4px}
+.ps{font-size:12px;color:var(--tx2);margin-bottom:20px}
+.sl{font-size:10px;font-weight:500;color:var(--tx3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;margin-top:20px}
+.card{background:var(--bg2);border:0.5px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.sb2{background:var(--sur);border-radius:var(--rs);padding:12px 8px;text-align:center}
+.sv{font-family:'Fraunces',Georgia,serif;font-size:19px;font-weight:600;line-height:1}
+.sl2{font-size:9px;color:var(--tx2);margin-top:4px;letter-spacing:.04em;text-transform:uppercase}
+.pill{display:inline-block;font-size:10px;padding:3px 9px;border-radius:20px;font-weight:500}
+.pg{background:var(--gr-bg);color:var(--gr)}
+.pa{background:var(--am-bg);color:var(--am)}
+.pc{background:var(--co-bg);color:var(--co)}
+.pb{background:var(--bl-bg);color:var(--bl)}
+.pp{background:var(--pu-bg);color:var(--pu)}
+.lr{display:flex;align-items:flex-start;justify-content:space-between;padding:11px 0;border-bottom:0.5px solid var(--bdr);gap:10px}
+.lr:last-child{border-bottom:none;padding-bottom:0}
+.lr:first-child{padding-top:0}
+.lm{flex:1;min-width:0}
+.ln{font-size:13px;font-weight:500;margin-bottom:2px}
+.ld{font-size:11px;color:var(--tx2);line-height:1.45}
+.lrr{font-size:10px;color:var(--tx3);text-align:right;min-width:65px;flex-shrink:0;line-height:1.4}
+.bnr{border-radius:var(--rs);padding:10px 13px;font-size:11px;line-height:1.5;margin-bottom:12px}
+.bgr{background:var(--gr-bg);color:var(--gr);border:0.5px solid rgba(126,202,143,.2)}
+.bar2{background:var(--am-bg);color:var(--am);border:0.5px solid rgba(232,184,109,.2)}
+.bbr{background:var(--bl-bg);color:var(--bl);border:0.5px solid rgba(110,174,232,.2)}
+.seg{display:flex;background:var(--sur);border-radius:var(--rs);padding:3px;margin-bottom:14px;overflow-x:auto;gap:2px;-webkit-overflow-scrolling:touch}
+.seg::-webkit-scrollbar{display:none}
+.segb{flex-shrink:0;padding:7px 13px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;color:var(--tx2);background:transparent;border:none;-webkit-appearance:none;font-family:'DM Sans',system-ui,sans-serif;white-space:nowrap}
+.segb.on{background:var(--bg3);color:var(--tx)}
+.exc{background:var(--sur);border-radius:var(--rs);padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;border:0.5px solid transparent;-webkit-appearance:none;width:100%;text-align:left}
+.exc.ck{background:rgba(126,202,143,.08);border-color:rgba(126,202,143,.2)}
+.enum{width:28px;height:28px;border-radius:50%;background:var(--bg3);border:0.5px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--tx2);flex-shrink:0}
+.exc.ck .enum{background:var(--gr2);color:var(--bg);border-color:var(--gr2)}
+.einfo{flex:1;min-width:0}
+.en{font-size:13px;font-weight:500;margin-bottom:2px}
+.es{font-size:11px;color:var(--tx2)}
+.enote{font-size:10px;color:var(--gr);margin-top:2px}
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.bc{background:var(--sur);border-radius:var(--r);padding:13px;border:0.5px solid var(--bdr)}
+.bt{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.bn{font-size:12px;font-weight:500;margin-bottom:5px;line-height:1.3}
+.bd{font-size:10px;color:var(--tx2);line-height:1.4;margin-bottom:7px}
+.prow{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.plbl{font-size:11px;color:var(--tx2);min-width:110px}
+.pt2{flex:1;background:var(--sur);border-radius:4px;height:5px;overflow:hidden}
+.pfi{height:100%;border-radius:4px;background:var(--gr2)}
+.pval{font-size:11px;font-weight:500;min-width:28px;text-align:right}
+.hero{background:var(--sur);border-radius:var(--r);padding:20px;margin-bottom:12px;border:0.5px solid var(--bdr);position:relative;overflow:hidden}
+.hl{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.ht{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:600;line-height:1.2;margin-bottom:4px}
+.hs{font-size:12px;color:var(--tx2)}
+.trow{display:flex;gap:8px;margin-bottom:12px}
+.tb{flex:1;background:var(--sur);border-radius:var(--rs);padding:12px;border:0.5px solid var(--bdr)}
+.tbl{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.tbv{font-size:16px;font-weight:500}
+.tbs{font-size:10px;color:var(--tx2);margin-top:1px}
+.lgrp{margin-bottom:14px}
+.llbl{font-size:11px;font-weight:500;color:var(--tx2);margin-bottom:6px;display:block}
+.lsel,.ltxt{width:100%;background:var(--sur);border:0.5px solid var(--bdr2);border-radius:var(--rs);color:var(--tx);padding:11px 13px;font-size:13px;font-family:'DM Sans',system-ui,sans-serif;-webkit-appearance:none;appearance:none}
+.ltxt{resize:none;line-height:1.5}
+.ltxt:focus,.lsel:focus{outline:none;border-color:var(--gr2)}
+.sbtn{width:100%;background:var(--gr2);border:none;border-radius:var(--r);padding:15px;font-size:14px;font-weight:500;color:var(--bg);cursor:pointer;font-family:'DM Sans',system-ui,sans-serif;margin-top:4px;-webkit-appearance:none}
+.sbtn:active{opacity:.85}
+.gpt{display:flex;gap:12px;padding:11px 0;border-bottom:0.5px solid var(--bdr)}
+.gpt:last-child{border-bottom:none}
+.gd{width:6px;height:6px;border-radius:50%;background:var(--gr2);margin-top:5px;flex-shrink:0}
+.gk{font-size:12px;font-weight:500;margin-bottom:2px}
+.gv{font-size:11px;color:var(--tx2);line-height:1.5}
+.lent{background:var(--sur);border-radius:var(--rs);padding:12px;margin-bottom:8px;border:0.5px solid var(--bdr)}
+.leh{display:flex;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:4px}
+.let{font-size:12px;font-weight:500}
+.led{font-size:10px;color:var(--tx3)}
+.leb{font-size:11px;color:var(--tx2);line-height:1.5}
+.empty{text-align:center;padding:40px 16px;color:var(--tx3);font-size:13px}
+.ctitle{font-size:13px;font-weight:500;margin-bottom:12px}
+.csub{font-size:11px;color:var(--tx2);margin-top:2px;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<div class="sbar">
+  <span class="stime" id="clk">9:41 AM</span>
+  <span class="sicons">signal wifi battery</span>
+</div>
+
+<div class="scroll" id="scr">
+
+<!-- HOME -->
+<div class="page on" id="pg-home">
+  <div class="hero">
+    <div class="hl">8-Week Transformation</div>
+    <div class="ht">Good morning,<br>let's get to work.</div>
+    <div class="hs">Vegetarian · Recomp · 144 to 138 lbs</div>
+  </div>
+  <div class="trow">
+    <div class="tb"><div class="tbl">Today</div><div class="tbv" id="td-day">—</div><div class="tbs" id="td-ses">—</div></div>
+    <div class="tb"><div class="tbl">Phase</div><div class="tbv">Week 1</div><div class="tbs" style="color:var(--gr)">Foundation</div></div>
+    <div class="tb"><div class="tbl">Logs saved</div><div class="tbv" id="td-logs">0</div><div class="tbs">entries</div></div>
+  </div>
+  <div class="sl">Your goals</div>
+  <div class="sg">
+    <div class="sb2"><div class="sv" style="color:var(--bl)">144</div><div class="sl2">Start lbs</div></div>
+    <div class="sb2"><div class="sv" style="color:var(--gr)">138</div><div class="sl2">Target lbs</div></div>
+    <div class="sb2"><div class="sv" style="color:var(--am)">21%</div><div class="sl2">BF now</div></div>
+    <div class="sb2"><div class="sv" style="color:var(--gr)">15%</div><div class="sl2">BF target</div></div>
+    <div class="sb2"><div class="sv">100g</div><div class="sl2">Protein/day</div></div>
+    <div class="sb2"><div class="sv">3-4x</div><div class="sl2">Gym/week</div></div>
+  </div>
+  <div class="sl">Daily protein breakdown</div>
+  <div class="card" id="pbars"></div>
+  <div class="sl">Morning routine update</div>
+  <div class="card">
+    <div class="lr"><div class="lm"><div class="ln">Green tea (replaces daily chai)</div><div class="ld">1-2 cups on waking. Add ginger + cardamom to mimic chai warmth. Boosts metabolism, zero sugar, supports fat oxidation.</div></div><span class="pill pg">Best</span></div>
+    <div class="lr"><div class="lm"><div class="ln">Post-workout protein shake</div><div class="ld">Within 30 min after gym: Orgain plant-based (Costco) + almond milk + banana. ~25g protein. Critical recovery window.</div></div><span class="pill pb">Key</span></div>
+    <div class="lr"><div class="lm"><div class="ln">Masala chai - rest days only</div><div class="ld">Wed + weekends if you miss it. Half tsp sugar max, 1% milk. Keep as a ritual, not a daily habit.</div></div><span class="pill pa">Occasional</span></div>
+  </div>
+  <div class="sl">8-week phases</div>
+  <div class="card">
+    <div class="lr"><div class="lm"><div class="ln">Weeks 1-2: Foundation</div><div class="ld">Form mastery, movement patterns, rebuild consistency habit</div></div><span class="pill pb">Now</span></div>
+    <div class="lr"><div class="lm"><div class="ln">Weeks 3-4: Volume build</div><div class="ld">Add sets, progressive overload begins in earnest</div></div><span class="pill pa">Next</span></div>
+    <div class="lr"><div class="lm"><div class="ln">Weeks 5-6: Strength push</div><div class="ld">Heavier loads, shorter rest, supersets introduced</div></div><span class="pill pc">Coming</span></div>
+    <div class="lr"><div class="lm"><div class="ln">Weeks 7-8: Peak and define</div><div class="ld">Max effort, circuits, tightest diet of the program</div></div><span class="pill pp">Final</span></div>
+  </div>
+  <div class="sl">Progressive overload rules</div>
+  <div class="card">
+    <div class="lr"><div class="lm"><div class="ld">Hit all sets cleanly x2 sessions in a row: add 5 lbs upper body, 10 lbs lower body</div></div></div>
+    <div class="lr"><div class="lm"><div class="ld">Cannot hit minimum reps: stay at current weight one more session, check form first</div></div></div>
+    <div class="lr"><div class="lm"><div class="ld">RPE target 7-8 out of 10. Last rep hard but form stays perfect throughout</div></div></div>
+    <div class="lr"><div class="lm"><div class="ld">Basketball warmup 5-7 min before every session at Lifetime Fitness</div></div></div>
+  </div>
+</div>
+
+<!-- WORKOUT -->
+<div class="page" id="pg-workout">
+  <h1 class="pt">Workouts</h1>
+  <div class="ps">Mon, Tue, Thu, Fri — 11:30 am to 12:30 pm</div>
+  <div class="sl">Phase</div>
+  <div class="seg" id="ph-seg">
+    <button class="segb on" onclick="setPhase('f',this)">Wks 1-2</button>
+    <button class="segb" onclick="setPhase('b',this)">Wks 3-4</button>
+    <button class="segb" onclick="setPhase('s',this)">Wks 5-6</button>
+    <button class="segb" onclick="setPhase('p',this)">Wks 7-8</button>
+  </div>
+  <div class="sl">Day</div>
+  <div class="seg" id="dy-seg">
+    <button class="segb on" onclick="setDay('mon',this)">Mon Push</button>
+    <button class="segb" onclick="setDay('tue',this)">Tue Pull</button>
+    <button class="segb" onclick="setDay('thu',this)">Thu Legs</button>
+    <button class="segb" onclick="setDay('fri',this)">Fri Full body</button>
+  </div>
+  <div class="bnr bgr" id="wbanner">Form first. Rest 60-90 sec. Basketball warmup before every session.</div>
+  <div style="margin-bottom:12px">
+    <div class="ctitle" id="wk-title">Monday — Push</div>
+    <div class="csub" id="wk-focus">Chest, Shoulders, Triceps</div>
+  </div>
+  <div id="exlist"></div>
+  <div class="bnr bar2" id="pnote" style="display:none;margin-top:8px"></div>
+  <div class="sl" style="margin-top:18px">Workout checklist</div>
+  <div id="cklist"></div>
+</div>
+
+<!-- MEALS -->
+<div class="page" id="pg-meals">
+  <h1 class="pt">Meal Plan</h1>
+  <div class="ps">Jewel, Costco, Walmart — 100g+ protein per day</div>
+  <div class="seg" id="ml-seg">
+    <button class="segb on" onclick="setMeal('bf',this)">Breakfast</button>
+    <button class="segb" onclick="setMeal('tm',this)">Timing</button>
+    <button class="segb" onclick="setMeal('lu',this)">Lunch</button>
+    <button class="segb" onclick="setMeal('di',this)">Dinner</button>
+    <button class="segb" onclick="setMeal('sn',this)">Snacks</button>
+  </div>
+
+  <div id="m-bf">
+    <div class="bnr bgr">6 options — quick weekday picks plus weekend specials. Target 18-30g protein at breakfast.</div>
+    <div class="bgrid">
+      <div class="bc"><div class="bt">Weekday 3 min</div><div class="bn">PB toast + hemp</div><div class="bd">2 whole grain toast + 2 tbsp natural PB + 1 tbsp hemp hearts (Costco) + banana</div><span class="pill pg">~22g protein</span></div>
+      <div class="bc"><div class="bt">Weekday 2 min</div><div class="bn">Greek yogurt bowl</div><div class="bd">Oikos Triple Zero + low-sugar granola + walnuts + Costco frozen berries</div><span class="pill pg">~24g protein</span></div>
+      <div class="bc"><div class="bt">Weekday 5 min</div><div class="bn">Protein smoothie</div><div class="bd">Orgain plant protein + almond milk + banana + 1 tbsp PB + handful of spinach</div><span class="pill pg">~28g protein</span></div>
+      <div class="bc"><div class="bt">Weekday 5 min</div><div class="bn">Tofu bhurji toast</div><div class="bd">Quarter block firm tofu crumbled + turmeric + cumin + salt, 4 min in pan on toast</div><span class="pill pg">~26g protein</span></div>
+      <div class="bc"><div class="bt">Weekend 15 min</div><div class="bn">Besan chilla</div><div class="bd">Half cup besan + water + ajwain + cumin + onion + chili, cook 2 crepes with chutney</div><span class="pill pg">~22g protein</span></div>
+      <div class="bc"><div class="bt">Weekend 10 min</div><div class="bn">Protein oats</div><div class="bd">Rolled oats cooked + stir in 1 scoop protein off heat + almond butter + cinnamon + apple</div><span class="pill pg">~30g protein</span></div>
+    </div>
+    <div class="card">
+      <div class="lr"><div class="lm"><div class="ln">Green tea (new daily default)</div><div class="ld">1-2 cups on waking. Add ginger and cardamom to mimic chai warmth. EGCG supports fat metabolism especially pre-workout.</div></div><span class="pill pg">Best</span></div>
+      <div class="lr"><div class="lm"><div class="ln">Post-workout shake</div><div class="ld">Orgain plant-based (Costco) or Garden of Life (Walmart) + almond milk + banana. Within 30 min post-gym.</div></div><span class="pill pb">Key</span></div>
+      <div class="lr"><div class="lm"><div class="ln">Masala chai - rest days only</div><div class="ld">Wed plus weekends. Half tsp sugar, 1% milk. Keep as a ritual, not a daily habit.</div></div><span class="pill pa">Occasional</span></div>
+    </div>
+  </div>
+
+  <div id="m-tm" style="display:none">
+    <div class="bnr bbr">Built around your 11:30 am to 12:30 pm gym window. Post-workout lunch is your most important meal of the day.</div>
+    <div class="card">
+      <div class="lr"><div class="lm"><div class="ln">7:00-8:00 am — Breakfast</div><div class="ld">One of 6 breakfast options + green tea. Gets protein started early.</div></div><div class="lrr">18-30g protein</div></div>
+      <div class="lr"><div class="lm"><div class="ln">10:30 am — Pre-workout snack</div><div class="ld">Oikos cup OR Z-bar OR 10-12 almonds + small fruit. Light enough to not sit heavy in the gym.</div></div><div class="lrr">10-15g protein</div></div>
+      <div class="lr"><div class="lm"><div class="ln">11:30 am-12:30 pm — Gym</div><div class="ld">Basketball warmup then lift. Drink 20+ oz water during the session.</div></div><div class="lrr">Stay hydrated</div></div>
+      <div class="lr"><div class="lm"><div class="ln">12:30-1:00 pm — Post-workout lunch</div><div class="ld">Most important meal. Protein shake optional first, then solid lunch within the hour. See Lunch tab.</div></div><div class="lrr">28-35g protein</div></div>
+      <div class="lr"><div class="lm"><div class="ln">4:00 pm — Afternoon snack</div><div class="ld">Edamame (Costco frozen, steam 3 min) + hummus + whole grain crackers or veggies. Replaces cottage cheese.</div></div><div class="lrr">10-14g protein</div></div>
+      <div class="lr"><div class="lm"><div class="ln">7:00-8:00 pm — Dinner</div><div class="ld">Home-cooked rotation (see Dinner tab). High protein, moderate carbs, low sodium.</div></div><div class="lrr">18-25g protein</div></div>
+      <div class="lr"><div class="lm"><div class="ln">Optional — Before bed</div><div class="ld">Small Oikos cup OR handful of edamame. Slow protein overnight supports muscle recovery while you sleep.</div></div><div class="lrr">~12g protein</div></div>
+    </div>
+    <div class="sg">
+      <div class="sb2"><div class="sv" style="color:var(--gr)">100g+</div><div class="sl2">Daily protein</div></div>
+      <div class="sb2"><div class="sv">1,750</div><div class="sl2">Daily kcal</div></div>
+      <div class="sb2"><div class="sv">25g+</div><div class="sl2">Fiber goal</div></div>
+    </div>
+  </div>
+
+  <div id="m-lu" style="display:none">
+    <div class="bnr bgr">Eat within 30-45 min post-workout. Rotate through the week. Batch cook Option 3 on Sunday to save time.</div>
+    <div class="card">
+      <div class="lr"><div class="lm"><div class="ln">1 — Tofu scramble bowl</div><div class="ld">Firm tofu crumbled + spinach + black beans + salsa + whole grain tortilla. 5-7 minutes.</div></div><div class="lrr">~35g protein</div></div>
+      <div class="lr"><div class="lm"><div class="ln">2 — Chickpea salad wrap</div><div class="ld">1 can chickpeas mashed + lemon + cumin + cucumber + red onion + 2 tbsp tahini in a tortilla. No cooking needed.</div></div><div class="lrr">~28g protein</div></div>
+      <div class="lr"><div class="lm"><div class="ln">3 — Lentil rice bowl</div><div class="ld">Red or green lentils (Costco) + half cup brown rice + roasted veg + cumin. Batch cook on Sunday.</div></div><div class="lrr">~30g protein</div></div>
+      <div class="lr"><div class="lm"><div class="ln">4 — Yogurt protein bowl</div><div class="ld">2 Oikos Triple Zero cups + low-sugar granola + walnuts + berries. Zero cooking required.</div></div><div class="lrr">~32g protein</div></div>
+      <div class="lr"><div class="lm"><div class="ln">5 — Paneer stir-fry</div><div class="ld">150g Nanak paneer (Jewel) + bell peppers + onions + cumin + coriander + 1 roti. About 15 minutes.</div></div><div class="lrr">~33g protein</div></div>
+      <div class="lr"><div class="lm"><div class="ln">6 — Edamame hummus bowl</div><div class="ld">1 cup shelled edamame steamed + quarter cup hummus + whole grain pita + cucumber + cherry tomatoes.</div></div><div class="lrr">~26g protein</div></div>
+    </div>
+  </div>
+
+  <div id="m-di" style="display:none">
+    <div class="bnr bar2">Your existing home cooking is great. These are optimized versions with protein boosts. Batch cook Sunday.</div>
+    <div class="card">
+      <div class="lr"><div class="lm"><div class="ln">Monday — Tofu stir-fry upgraded</div><div class="ld">Your current recipe + add 1 cup frozen edamame (Costco) + low-sodium soy sauce + serve with brown rice.</div></div><div class="lrr">~28g</div></div>
+      <div class="lr"><div class="lm"><div class="ln">Tuesday — Chana masala or rajma</div><div class="ld">Increase chickpea or rajma portion, minimal oil, extra tomatoes for lycopene. 1-2 rotis.</div></div><div class="lrr">~25g</div></div>
+      <div class="lr"><div class="lm"><div class="ln">Wednesday — Black bean tacos</div><div class="ld">Your tacos + quarter cup edamame on top + avocado. Skip sour cream, add hot sauce.</div></div><div class="lrr">~24g</div></div>
+      <div class="lr"><div class="lm"><div class="ln">Thursday — Paneer + dal + roti</div><div class="ld">150g Nanak paneer (Jewel) + dal with minimal oil, lemon for flavor instead of salt. Best protein dinner of the week.</div></div><div class="lrr">~32g</div></div>
+      <div class="lr"><div class="lm"><div class="ln">Friday — Smart takeout</div><div class="ld">Thai: tofu stir-fry + brown rice. Mexican: bean bowl + guac. Pizza: 2 slices + big side salad.</div></div><div class="lrr">~20g</div></div>
+      <div class="lr"><div class="lm"><div class="ln">Saturday — Restaurant</div><div class="ld">Paneer dishes, dal makhani with less butter requested, or Mediterranean — hummus platter, falafel.</div></div><div class="lrr">Flexible</div></div>
+      <div class="lr"><div class="lm"><div class="ln">Sunday — Batch cook day</div><div class="ld">Big pot of lentils + brown rice + roast tray of tofu and veg. Takes 45 min, saves the whole week.</div></div><div class="lrr">Meal prep</div></div>
+    </div>
+  </div>
+
+  <div id="m-sn" style="display:none">
+    <div class="card">
+      <div class="lr"><div class="lm"><div class="ln">Edamame — main snack (replaces cottage cheese)</div><div class="ld">Costco Seapoint Farms frozen shelled edamame. Steam in bag 3 min. 1 cup = 17g protein, high fiber, heart healthy.</div></div><span class="pill pg">Best swap</span></div>
+      <div class="lr"><div class="lm"><div class="ln">Hummus + crackers or veggies</div><div class="ld">Costco Kirkland hummus + Triscuits (Jewel) or sliced cucumber, bell pepper, carrots. 8-10g protein per serving.</div></div><span class="pill pg">Staple</span></div>
+      <div class="lr"><div class="lm"><div class="ln">Edamame + hummus combo</div><div class="ld">Together = 18-20g protein snack. Blood-pressure friendly. Low sodium with plain hummus.</div></div><span class="pill pg">Power snack</span></div>
+      <div class="lr"><div class="lm"><div class="ln">Keep — Almonds</div><div class="ld">Healthy fats. Limit 20-25 per sitting. Costco has the best price per pound.</div></div><span class="pill pa">Keep</span></div>
+      <div class="lr"><div class="lm"><div class="ln">Swap — Chips to roasted chickpeas</div><div class="ld">Biena brand at Jewel or Walmart. Same crunch, 6g protein, high fiber, better for cholesterol and BP.</div></div><span class="pill pc">Swap</span></div>
+      <div class="lr"><div class="lm"><div class="ln">Swap — Coke to sparkling water</div><div class="ld">Bubly or LaCroix (Costco 24-pack). Limit Coke to 1x per week maximum.</div></div><span class="pill pc">Swap</span></div>
+      <div class="lr"><div class="lm"><div class="ln">Swap — Cookies to dark chocolate</div><div class="ld">Lindt 85%+ at Jewel or Costco. 1-2 squares. Less sugar, has magnesium, still feels like a real treat.</div></div><span class="pill pc">Swap</span></div>
+      <div class="lr"><div class="lm"><div class="ln">Add — Hemp hearts</div><div class="ld">Manitoba Harvest at Costco. 3 tbsp = 10g protein. Sprinkle on anything. Tasteless and invisible in food.</div></div><span class="pill pb">Easy add</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOG -->
+<div class="page" id="pg-log">
+  <h1 class="pt">Daily Log</h1>
+  <div class="ps">Track every session — coach reviews and responds</div>
+  <div class="seg" id="log-seg">
+    <button class="segb on" onclick="setLogTab('new',this)">New entry</button>
+    <button class="segb" onclick="setLogTab('hist',this)">History</button>
+  </div>
+  <div id="log-new">
+    <div class="lgrp"><label class="llbl">Week</label>
+      <select class="lsel" id="lw"><option>Week 1</option><option>Week 2</option><option>Week 3</option><option>Week 4</option><option>Week 5</option><option>Week 6</option><option>Week 7</option><option>Week 8</option></select>
+    </div>
+    <div class="lgrp"><label class="llbl">Day</label>
+      <select class="lsel" id="lday"><option>Monday (Push)</option><option>Tuesday (Pull)</option><option>Wednesday (Rest)</option><option>Thursday (Legs + Core)</option><option>Friday (Full body)</option><option>Saturday</option><option>Sunday</option></select>
+    </div>
+    <div class="lgrp"><label class="llbl">Gym session</label>
+      <select class="lsel" id="lgym"><option>Completed</option><option>Missed</option><option>Partial session</option></select>
+    </div>
+    <div class="lgrp"><label class="llbl">Exercises — weights and reps you completed</label>
+      <textarea class="ltxt" id="lex" rows="4" placeholder="e.g. Bench 100 lbs 3x10, incline DB 27.5 lbs 3x10, shoulder press 22.5 lbs 3x8, push-ups 3x15..."></textarea>
+    </div>
+    <div class="lgrp"><label class="llbl">Meals — what you actually ate today</label>
+      <textarea class="ltxt" id="lme" rows="4" placeholder="e.g. Green tea + protein smoothie, edamame + hummus snack, chickpea wrap for lunch, chana masala + 1 roti for dinner..."></textarea>
+    </div>
+    <div class="lgrp"><label class="llbl">Energy, soreness, and sleep quality</label>
+      <textarea class="ltxt" id="lfe" rows="2" placeholder="e.g. Good energy, chest a bit sore, slept 7 hrs, felt motivated..."></textarea>
+    </div>
+    <div class="lgrp"><label class="llbl">Questions or challenges for your coach</label>
+      <textarea class="ltxt" id="lno" rows="2" placeholder="e.g. Left knee felt uncomfortable on squats, craved sweets at night..."></textarea>
+    </div>
+    <button class="sbtn" onclick="submitLog()">Send to coach</button>
+    <div style="height:8px"></div>
+  </div>
+  <div id="log-hist" style="display:none">
+    <div id="histlist"></div>
+  </div>
+</div>
+
+<!-- GUIDE -->
+<div class="page" id="pg-guide">
+  <h1 class="pt">Exercise Guide</h1>
+  <div class="ps">Form cues for key lifts — read before you lift</div>
+  <div class="seg" id="gd-seg">
+    <button class="segb on" onclick="setGuide('bench',this)">Bench</button>
+    <button class="segb" onclick="setGuide('pullup',this)">Pull-ups</button>
+    <button class="segb" onclick="setGuide('dead',this)">Deadlift</button>
+    <button class="segb" onclick="setGuide('squat',this)">Squat</button>
+    <button class="segb" onclick="setGuide('curl',this)">Curl</button>
+    <button class="segb" onclick="setGuide('abs',this)">Abs</button>
+  </div>
+  <div class="card" id="gcard"></div>
+  <div class="sl">Universal cues — every lift</div>
+  <div class="card">
+    <div class="lr"><div class="lm"><div class="ln">Breathe</div><div class="ld">Exhale on exertion (the push or pull), inhale on the return. Never hold your breath on heavy sets.</div></div></div>
+    <div class="lr"><div class="lm"><div class="ln">Tempo</div><div class="ld">1-2 sec concentric (moving weight), 2-3 sec eccentric (lowering). Slow lowering builds significantly more muscle.</div></div></div>
+    <div class="lr"><div class="lm"><div class="ln">Mind-muscle connection</div><div class="ld">Feel the target muscle working. If you cannot feel it, lighten the weight and focus on the squeeze.</div></div></div>
+    <div class="lr"><div class="lm"><div class="ln">Neutral spine</div><div class="ld">On every compound lift maintain natural spine curve. Never round your lower back under any load.</div></div></div>
+  </div>
+</div>
+
+</div>
+
+<div class="bnav">
+  <button class="ni on" onclick="navTo('home',this)"><span class="nicon">H</span><span class="nlbl">Home</span></button>
+  <button class="ni" onclick="navTo('workout',this)"><span class="nicon">W</span><span class="nlbl">Workout</span></button>
+  <button class="ni" onclick="navTo('meals',this)"><span class="nicon">M</span><span class="nlbl">Meals</span></button>
+  <button class="ni" onclick="navTo('log',this)"><span class="nicon">L</span><span class="nlbl">Log</span></button>
+  <button class="ni" onclick="navTo('guide',this)"><span class="nicon">G</span><span class="nlbl">Guide</span></button>
+</div>
+
+</div>
+
+<script>
+(function(){
+// CLOCK
+function tick(){var n=new Date(),h=n.getHours(),m=n.getMinutes(),a=h>=12?'PM':'AM';h=h%12||12;document.getElementById('clk').textContent=h+':'+(m<10?'0':'')+m+' '+a;}
+tick();setInterval(tick,30000);
+
+// TODAY
+var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var ses={1:'Push: Chest/Shoulders/Tri',2:'Pull: Back/Biceps',3:'Rest day',4:'Legs + Core',5:'Full body + Arms',0:'Active rest',6:'Active rest'};
+var d=new Date().getDay();
+document.getElementById('td-day').textContent=days[d];
+document.getElementById('td-ses').textContent=ses[d]||'Rest';
+
+// NAV
+window.navTo=function(id,btn){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.ni').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('pg-'+id).classList.add('on');
+  btn.classList.add('on');
+  document.getElementById('scr').scrollTop=0;
+};
+
+// PROTEIN BARS
+var psrc=[{l:'Breakfast',g:22,m:30},{l:'Pre-workout',g:13,m:15},{l:'Post-workout lunch',g:30,m:35},{l:'Afternoon snack',g:12,m:17},{l:'Dinner',g:22,m:32},{l:'Evening optional',g:10,m:12}];
+var tot=0,ph='';
+psrc.forEach(function(s){tot+=s.g;var p=Math.round(s.g/s.m*100);ph+='<div class="prow"><span class="plbl">'+s.l+'</span><div class="pt2"><div class="pfi" style="width:'+p+'%"></div></div><span class="pval">'+s.g+'g</span></div>';});
+ph+='<div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:0.5px solid var(--bdr)"><span style="font-size:12px;color:var(--tx2)">Daily total</span><span style="font-size:14px;font-weight:500;color:var(--gr)">~'+tot+'g</span></div>';
+document.getElementById('pbars').innerHTML=ph;
+
+// WORKOUT
+var CP='f',CD='mon';
+var PH={
+  f:'Weeks 1-2: Form first. Lower end of weights. Rest 60-90 sec. Basketball warmup before every session.',
+  b:'Weeks 3-4: Add a set to main lifts. Bump weights 5 lbs where easy. Last 2 reps should feel challenging.',
+  s:'Weeks 5-6: Heavier loads, lower reps (6-8 range). Rest 90-120 sec. Supersets introduced this phase.',
+  p:'Weeks 7-8: Maximum effort. Test PRs on bench and deadlift. Tighten diet — minimize takeout.'
+};
+var WK={
+  mon:{title:'Monday — Push',focus:'Chest, Shoulders, Triceps',
+    f:[{n:'Flat barbell bench press',d:'95 lbs, 3 sets x 8-10 reps, Rest 90 sec',r:'Add 5 lbs when 3x10 clean for 2 sessions'},
+       {n:'Incline dumbbell press',d:'25 lbs each, 3 sets x 10 reps, Rest 60 sec',r:'Upper chest and shoulder width'},
+       {n:'Seated DB shoulder press',d:'20 lbs each, 3 sets x 10 reps, Rest 60 sec',r:'Challenge: add 5 lbs in week 3'},
+       {n:'Cable lateral raises',d:'10-15 lbs, 3 sets x 12-15 reps, Rest 45 sec',r:'Width builder for shoulders'},
+       {n:'Tricep rope pushdown',d:'50 lbs, 3 sets x 12 reps, Rest 45 sec',r:'Squeeze hard at the bottom'},
+       {n:'Push-ups finisher',d:'3 sets, max reps, Rest 45 sec',r:'Target 30+ reps by week 8'}],
+    b:[{n:'Flat barbell bench press',d:'105 lbs, 4 sets x 8-10 reps, Rest 90 sec',r:'Added 1 set this phase'},
+       {n:'Incline dumbbell press',d:'30 lbs, 4 sets x 10-12 reps, Rest 60 sec',r:'Heavier if week 2 felt easy'},
+       {n:'Seated DB shoulder press',d:'25 lbs, 3 sets x 10 reps, Rest 60 sec',r:''},
+       {n:'Cable lateral raises',d:'15 lbs, 3 sets x 12-15 reps',r:''},
+       {n:'Overhead DB tricep extension',d:'30 lbs, 3 sets x 12 reps',r:'New this phase, targets long head'},
+       {n:'Tricep rope pushdown',d:'60 lbs, 3 sets x 10-12 reps',r:''}],
+    s:[{n:'Flat barbell bench press',d:'110-115 lbs, 4 sets x 6-8 reps, Rest 2 min',r:'Heavier weight, lower rep range'},
+       {n:'Weighted push-ups or dips',d:'Bodyweight plus plate, 3 sets x 8-10',r:'Added this phase'},
+       {n:'Arnold press',d:'25 lbs, 3 sets x 10 reps',r:'Replaces seated press'},
+       {n:'Cable lateral raises',d:'15-20 lbs, 4 sets x 12 reps',r:'Extra set added for width'},
+       {n:'Overhead DB tricep extension',d:'35 lbs, 3 sets x 10 reps',r:''},
+       {n:'Tricep pushdown dropset',d:'70 lbs drop to 50 lbs, 3 sets',r:'Dropset for definition'}],
+    p:[{n:'Flat barbell bench press',d:'120 lbs, 3-4 sets x 5-6 reps, Rest 2 min',r:'Near max — use a spotter!'},
+       {n:'Incline DB press',d:'35 lbs, 4 sets x 10 reps',r:''},
+       {n:'Arnold press',d:'30 lbs, 3 sets x 10 reps',r:''},
+       {n:'Lateral raise + front raise superset',d:'3 rounds, 12 each, no rest between',r:'Shoulder definition'},
+       {n:'Dips + tricep pushdown superset',d:'3 rounds, no rest between',r:'Arm definition'}],
+    prog:'Target by week 8: Bench 120 lbs for reps. Push-ups 30+ reps per set.'},
+  tue:{title:'Tuesday — Pull',focus:'Back, Biceps, Rear Delts',
+    f:[{n:'Lat pulldown wide grip',d:'90 lbs, 3 sets x 10 reps, Rest 60 sec',r:'Back width — lead with your elbows'},
+       {n:'Seated cable row',d:'80 lbs, 3 sets x 10 reps, Rest 60 sec',r:'Squeeze shoulder blades together'},
+       {n:'Pull-ups',d:'3 sets x 7-8 reps, Rest 90 sec',r:'Already strong here — maintain form'},
+       {n:'DB bent-over row',d:'30 lbs each, 3 sets x 10 reps',r:'Unilateral, balance both sides'},
+       {n:'Dumbbell bicep curl',d:'25 lbs, 3 sets x 10 reps',r:'Your current base — hold technique'},
+       {n:'Hammer curl',d:'20 lbs, 3 sets x 12 reps',r:'Builds forearm and brachialis thickness'},
+       {n:'Face pulls cable',d:'40 lbs, 3 sets x 15 reps',r:'Rear delt and posture health'}],
+    b:[{n:'Lat pulldown',d:'100 lbs, 4 sets x 10 reps',r:'Added set and weight'},
+       {n:'Seated cable row',d:'90 lbs, 4 sets x 10 reps',r:''},
+       {n:'Pull-ups',d:'3 sets x 8-10 reps',r:'Target 10 clean reps this phase'},
+       {n:'T-bar row or machine row',d:'50-60 lbs, 3 sets x 10 reps',r:'New this phase'},
+       {n:'DB bicep curl',d:'27.5-30 lbs, 3 sets x 10 reps',r:'Bump the weight up'},
+       {n:'Concentration curl',d:'20 lbs, 3 sets x 12 reps',r:'Peak contraction, squeeze hard'},
+       {n:'Face pulls',d:'45 lbs, 3 sets x 15 reps',r:''}],
+    s:[{n:'Weighted pull-ups',d:'+10 lbs on belt, 4 sets x 6-8 reps',r:'Big progression jump this phase'},
+       {n:'Lat pulldown',d:'110 lbs, 4 sets x 8-10 reps',r:''},
+       {n:'Barbell bent-over row',d:'85 lbs, 4 sets x 8 reps',r:'Replaces dumbbell row'},
+       {n:'DB bicep curl',d:'30 lbs, 4 sets x 8-10 reps',r:''},
+       {n:'Incline hammer curl',d:'20 lbs, 3 sets x 10 reps',r:'Full stretch at the bottom'},
+       {n:'Face pulls',d:'50 lbs, 3 sets x 15 reps',r:''}],
+    p:[{n:'Weighted pull-ups',d:'+15-20 lbs, 3 sets x 6 reps',r:'Strength peak'},
+       {n:'Lat pulldown close grip',d:'110+ lbs, 3 sets x 10 reps',r:''},
+       {n:'Barbell row + DB row superset',d:'3 rounds back to back',r:'Volume finisher'},
+       {n:'21s bicep curl',d:'20 lbs, 3 sets of 7+7+7',r:'Definition technique'},
+       {n:'Face pulls + band pull-apart superset',d:'3 rounds',r:''}],
+    prog:'Pull-up target: 7-8 reps now to 12-15 by week 8. Add belt weight in weeks 5-8.'},
+  thu:{title:'Thursday — Legs + Core',focus:'Quads, Hamstrings, Calves, Abs',
+    f:[{n:'Goblet squat',d:'30-35 lbs, 3 sets x 12 reps, Rest 60 sec',r:'Better form base than barbell to start'},
+       {n:'Romanian deadlift RDL',d:'85 lbs, 3 sets x 10 reps, Rest 90 sec',r:'Hamstrings and glutes — hinge at hips'},
+       {n:'Leg press',d:'120-150 lbs, 3 sets x 12 reps',r:'Easier on lower back than squats'},
+       {n:'Leg extension machine',d:'50-60 lbs, 3 sets x 12 reps',r:'Quad isolation — full extension'},
+       {n:'Seated calf raise',d:'50-60 lbs, 3 sets x 15 reps',r:'Full stretch down, full contract up'},
+       {n:'Plank',d:'3 sets, 30-45 seconds',r:'Squeeze glutes AND abs simultaneously'},
+       {n:'Lying leg raises',d:'3 sets x 12-15 reps',r:'Lower abs — control the descent'},
+       {n:'Cable crunch',d:'40-50 lbs, 3 sets x 15 reps',r:'Resistance abs build muscle under fat'}],
+    b:[{n:'Barbell back squat',d:'85-95 lbs, 4 sets x 10 reps',r:'Transition from goblet this phase'},
+       {n:'Romanian deadlift',d:'95 lbs, 4 sets x 10 reps',r:''},
+       {n:'Leg press',d:'160-180 lbs, 3 sets x 12 reps',r:''},
+       {n:'Leg curl machine',d:'60 lbs, 3 sets x 12 reps',r:'New this phase — hamstrings'},
+       {n:'Standing calf raise',d:'BW plus 60 lbs, 3 sets x 20 reps',r:''},
+       {n:'Plank',d:'3 sets x 45-60 seconds',r:'Build time each session'},
+       {n:'Ab wheel or cable crunch',d:'3 sets x 12-15 reps',r:''}],
+    s:[{n:'Barbell back squat',d:'100 lbs, 4 sets x 8 reps, Rest 2 min',r:'Heavy compound day'},
+       {n:'Romanian deadlift',d:'105 lbs, 4 sets x 8 reps',r:''},
+       {n:'Bulgarian split squat',d:'20 lbs each, 3 sets x 10 reps per leg',r:'Added this phase — thigh mass builder'},
+       {n:'Leg press',d:'180-200 lbs, 3 sets x 10 reps',r:''},
+       {n:'Calf superset',d:'Standing plus seated, 3 rounds, 15 reps each',r:''},
+       {n:'Hanging leg raises',d:'3 sets x 12-15 reps',r:'Upgraded from floor raises'},
+       {n:'Russian twist + plank',d:'3 sets each, 20 reps + 60 sec',r:''}],
+    p:[{n:'Barbell squat',d:'105-110 lbs, 4 sets x 6-8 reps',r:'Strength peak on legs'},
+       {n:'RDL + leg curl superset',d:'3 rounds, no rest between',r:'Hamstring burnout'},
+       {n:'Bulgarian split squat',d:'25 lbs, 4 sets x 10 per leg',r:''},
+       {n:'Calf giant set',d:'3 exercises back to back, 3 rounds',r:'Mass finisher'},
+       {n:'Core circuit',d:'Plank + leg raise + cable crunch, 3 rounds no rest',r:''}],
+    prog:'Abs truth: visible abs come from diet and fat loss. These exercises build the muscle underneath.'},
+  fri:{title:'Friday — Full Body',focus:'Deadlift, Arms, Compounds, Abs',
+    f:[{n:'Deadlift',d:'85 lbs, 3 sets x 8 reps, Rest 2 min',r:'Full body mass builder — king of all lifts'},
+       {n:'Dumbbell bench press',d:'35 lbs each, 3 sets x 10 reps',r:'Fuller range of motion than barbell'},
+       {n:'Lat pulldown close grip',d:'90 lbs, 3 sets x 10 reps',r:''},
+       {n:'EZ bar curl',d:'50-55 lbs total, 3 sets x 10 reps',r:'Easier on wrists than straight bar'},
+       {n:'Skull crushers',d:'40 lbs, 3 sets x 12 reps',r:'Tricep long head — great for arm size'},
+       {n:'Cable crunch',d:'50 lbs, 3 sets x 15 reps',r:''},
+       {n:'Mountain climbers',d:'3 sets x 30 sec, Rest 30 sec',r:'Cardio plus core finisher'}],
+    b:[{n:'Deadlift',d:'95-100 lbs, 4 sets x 8 reps',r:'Added set and weight'},
+       {n:'Dumbbell bench press',d:'37.5-40 lbs, 3 sets x 10 reps',r:''},
+       {n:'Seated cable row',d:'90 lbs, 3 sets x 10 reps',r:''},
+       {n:'Preacher curl machine',d:'40 lbs, 3 sets x 10 reps',r:'Peak bicep contraction'},
+       {n:'Skull crushers',d:'45 lbs, 3 sets x 10 reps',r:''},
+       {n:'Decline crunch + leg raise',d:'3 sets x 15 each',r:''}],
+    s:[{n:'Deadlift',d:'110 lbs, 4 sets x 6-8 reps, Rest 2 min',r:'Heavy pull — focus on form always'},
+       {n:'DB bench + DB flyes superset',d:'40 lbs + 20 lbs, 3 rounds',r:''},
+       {n:'Pull-up + row superset',d:'3 rounds back to back',r:''},
+       {n:'Bicep curl + tricep pushdown superset',d:'30 lbs + 60 lbs, 3 rounds x 10 each',r:'Arms superset'},
+       {n:'Ab circuit',d:'Plank + leg raise + cable crunch + climbers, 3 rounds no rest',r:''}],
+    p:[{n:'Deadlift',d:'115-120 lbs, 4 sets x 5-6 reps, Rest 2+ min',r:'Near PR — always prioritize form'},
+       {n:'Dumbbell complex',d:'3 exercises back to back, 3 rounds',r:'Metabolic finisher'},
+       {n:'Arms giant set',d:'Curl + hammer + pushdown + extension, no rest between',r:'Definition burn'},
+       {n:'Ab finisher',d:'5 min continuous ab work',r:''}],
+    prog:'Deadlift target by week 8: 120+ lbs for 8 clean reps.'}
+};
+var CKS={};
+
+window.setPhase=function(ph,btn){CP=ph;document.querySelectorAll('#ph-seg .segb').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');document.getElementById('wbanner').textContent=PH[ph];renderWK();};
+window.setDay=function(d,btn){CD=d;document.querySelectorAll('#dy-seg .segb').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');renderWK();};
+
+function renderWK(){
+  var w=WK[CD],exs=w[CP],exH='',ckH='';
+  document.getElementById('wk-title').textContent=w.title;
+  document.getElementById('wk-focus').textContent=w.focus;
+  exs.forEach(function(e,i){
+    var k=CD+CP+i,done=!!CKS[k];
+    exH+='<button class="exc'+(done?' ck':'')+'" onclick="togEx(this,\''+k+'\','+i+')" id="ex-'+k+'"><div class="enum">'+(done?'v':(i+1))+'</div><div class="einfo"><div class="en">'+e.n+'</div><div class="es">'+e.d+'</div>'+(e.r?'<div class="enote">'+e.r+'</div>':'')+'</div></button>';
+    ckH+='<button class="exc'+(done?' ck':'')+'" onclick="togEx(this,\''+k+'\','+i+')" id="ck-'+k+'"><div class="enum">'+(done?'v':(i+1))+'</div><div class="einfo"><div class="en">'+e.n+'</div><div class="es">'+e.d+'</div></div></button>';
+  });
+  document.getElementById('exlist').innerHTML=exH;
+  document.getElementById('cklist').innerHTML=ckH;
+  var pn=document.getElementById('pnote');
+  pn.textContent=w.prog||'';pn.style.display=w.prog?'block':'none';
+}
+
+window.togEx=function(el,k,i){
+  CKS[k]=!CKS[k];
+  el.classList.toggle('ck');
+  var num=el.querySelector('.enum');
+  if(num)num.textContent=CKS[k]?'v':(i+1);
+  var oid=el.id.startsWith('ex-')?'ck-'+k:'ex-'+k;
+  var oth=document.getElementById(oid);
+  if(oth){oth.classList.toggle('ck',CKS[k]);var on=oth.querySelector('.enum');if(on)on.textContent=CKS[k]?'v':(i+1);}
+};
+renderWK();
+
+// MEALS
+window.setMeal=function(m,btn){
+  ['bf','tm','lu','di','sn'].forEach(function(x){var e=document.getElementById('m-'+x);if(e)e.style.display='none';});
+  document.querySelectorAll('#ml-seg .segb').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('m-'+m).style.display='block';btn.classList.add('on');
+};
+
+// LOG
+var LOGS=[];
+try{LOGS=JSON.parse(localStorage.getItem('fitlogs2')||'[]');}catch(e){}
+function updLogCt(){document.getElementById('td-logs').textContent=LOGS.length;}
+updLogCt();
+
+window.setLogTab=function(t,btn){
+  document.querySelectorAll('#log-seg .segb').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.getElementById('log-new').style.display=t==='new'?'block':'none';
+  document.getElementById('log-hist').style.display=t==='hist'?'block':'none';
+  if(t==='hist')renderHist();
+};
+
+window.submitLog=function(){
+  var week=document.getElementById('lw').value;
+  var day=document.getElementById('lday').value;
+  var gym=document.getElementById('lgym').value;
+  var ex=document.getElementById('lex').value.trim();
+  var me=document.getElementById('lme').value.trim();
+  var fe=document.getElementById('lfe').value.trim();
+  var no=document.getElementById('lno').value.trim();
+  if(!ex&&!me){alert('Please fill in your exercises or meals before sending.');return;}
+  var entry={week:week,day:day,gym:gym,ex:ex,me:me,fe:fe,no:no,date:new Date().toLocaleDateString()};
+  LOGS.unshift(entry);
+  try{localStorage.setItem('fitlogs2',JSON.stringify(LOGS.slice(0,50)));}catch(e){}
+  updLogCt();
+  var msg='DAILY LOG\n'+week+', '+day+'\nGym: '+gym;
+  if(ex)msg+='\n\nEXERCISES:\n'+ex;
+  if(me)msg+='\n\nMEALS:\n'+me;
+  if(fe)msg+='\n\nFEELING AND SLEEP:\n'+fe;
+  if(no)msg+='\n\nNOTES FOR COACH:\n'+no;
+  document.getElementById('lex').value='';document.getElementById('lme').value='';
+  document.getElementById('lfe').value='';document.getElementById('lno').value='';
+  if(typeof sendPrompt==='function'){
+    sendPrompt(msg);
+  } else {
+    var txt=document.createElement('textarea');
+    txt.value=msg;txt.style.position='fixed';txt.style.opacity='0';
+    document.body.appendChild(txt);txt.select();
+    try{document.execCommand('copy');alert('Log saved and copied to clipboard!\n\nPaste it into your Claude chat to get coach feedback.');}
+    catch(e){alert('Log saved!\n\nOpen Claude.ai and paste this:\n\n'+msg);}
+    document.body.removeChild(txt);
+  }
+};
+
+function renderHist(){
+  var el=document.getElementById('histlist');
+  if(!LOGS.length){el.innerHTML='<div class="empty">No logs yet.<br>Complete your first daily log to see history here.</div>';return;}
+  var h='';
+  LOGS.forEach(function(l){
+    h+='<div class="lent"><div class="leh"><span class="let">'+l.week+' - '+l.day+'</span><span class="led">'+l.date+' | '+l.gym+'</span></div>';
+    if(l.ex)h+='<div class="leb" style="margin-bottom:4px"><span style="color:var(--gr2);font-weight:500">Exercises: </span>'+l.ex+'</div>';
+    if(l.me)h+='<div class="leb"><span style="color:var(--am);font-weight:500">Meals: </span>'+l.me+'</div>';
+    if(l.fe)h+='<div class="leb" style="margin-top:3px"><span style="color:var(--tx2);font-weight:500">Felt: </span>'+l.fe+'</div>';
+    h+='</div>';
+  });
+  el.innerHTML=h;
+}
+
+// GUIDE
+var GD={
+  bench:{title:'Bench press — foundation lift',pts:[
+    {k:'Setup',v:'Feet flat on floor. Slight arch in lower back. Shoulder blades pinched and pulled DOWN before you touch the bar. This is the single most important cue for bench press.'},
+    {k:'Grip',v:'Slightly wider than shoulder-width. Wrap thumb around bar. Bar sits in the heel of your palm, not your fingers.'},
+    {k:'Descent',v:'Bar comes to lower chest (nipple line), not your neck. Elbows at 45-75 degrees from your body — not flared to 90 degrees which strains shoulders.'},
+    {k:'Press',v:'Push the bar up and slightly back toward the rack. Think push yourself through the bench rather than pushing the bar up. Exhale on the press.'},
+    {k:'Your target',v:'100 lbs x 10 now, target 120 lbs x 8 clean reps by week 8. You already touch 120 for 2-3 reps — that becomes your working weight.'}]},
+  pullup:{title:'Pull-ups — already strong here',pts:[
+    {k:'Grip',v:'Slightly wider than shoulder-width overhand. Do not death-grip — it tires forearms. Wrap thumb under the bar if needed.'},
+    {k:'Initiation',v:'Depress your shoulder blades — pull them DOWN — before bending your elbows. This engages your lats first, not just your arms.'},
+    {k:'Pull',v:'Lead with your chest toward the bar. Think pull your elbows down to your hips. Chin clears the bar at the top.'},
+    {k:'Descent',v:'Lower slowly, 2-3 seconds. Full hang at bottom with slight elbow bend — do not fully lock out to protect your joints.'},
+    {k:'Progression',v:'7-8 reps now, target 12-15 by week 8. Add weight with a belt and plate in weeks 5-8 for 6-8 heavy reps alongside bodyweight sets.'}]},
+  dead:{title:'Deadlift — full body mass builder',pts:[
+    {k:'Setup',v:'Bar over mid-foot, about 1 inch from shins. Hip-width stance. Hinge at hips, grip just outside your legs. Shoulders slightly in front of bar.'},
+    {k:'Back position',v:'Neutral spine — not rounded, not hyperextended. Proud chest and long neck. This is critical for safety. Never round under load.'},
+    {k:'The pull',v:'Push the floor away — it is a leg drive as much as a back pull. Bar drags up your shins and thighs the entire way. Hips and shoulders rise at the same rate.'},
+    {k:'Lockout',v:'Stand tall at the top, glutes squeezed. Do not lean back excessively. Lower with control — hinge at hips first, then bend knees.'},
+    {k:'Your target',v:'85 lbs x 10 now, target 120+ lbs x 8 clean reps by week 8.'}]},
+  squat:{title:'Squat — legs and core compound',pts:[
+    {k:'Stance',v:'Slightly wider than hip-width, toes pointed out 15-30 degrees. For your height and build a slightly wider stance allows better depth and is more comfortable.'},
+    {k:'Descent',v:'Push knees out in line with toes. Sit back AND down — not just forward. Keep chest tall and upright. Go to at least parallel, thighs parallel to floor.'},
+    {k:'Drive',v:'Drive through your full foot, not just heels. Think spread the floor apart with your feet. Core stays braced and tight throughout the entire rep.'},
+    {k:'Weeks 1-2',v:'Use goblet squat with a dumbbell before loading the barbell. Goblet naturally teaches upright torso position and proper depth.'},
+    {k:'Common mistake',v:'Knees caving in, called valgus collapse. Fix: actively push your knees outward throughout the movement, especially on the way up.'}]},
+  curl:{title:'Bicep curl — arm width and peak',pts:[
+    {k:'No swinging',v:'Upper arms pinned to your sides. Only the forearm moves. If you are swinging your back to complete a rep the weight is too heavy — drop 5 lbs.'},
+    {k:'Supination',v:'As you curl up, rotate your wrist so your pinky finger goes toward your shoulder. This maximizes peak contraction of the bicep.'},
+    {k:'Tempo',v:'1 sec up, 1 sec pause and squeeze at the top, 2-3 sec lowering. The slow lowering phase builds more muscle than the curl itself.'},
+    {k:'Hammer curls',v:'Keep palms facing each other throughout. Builds the brachialis muscle underneath the bicep — adds visible arm thickness, not just peak.'},
+    {k:'Your target',v:'25 lbs x 10 now, target 35 lbs x 8 by week 8. Add hammer curls and concentration curls for full arm development.'}]},
+  abs:{title:'Abs — the path to visible definition',pts:[
+    {k:'Reality check',v:'At 21% body fat, abs are covered by fat. No amount of crunches reveals them — only diet plus overall fat loss does. Abs are earned in the kitchen.'},
+    {k:'Best exercises',v:'Cable crunch (resistance builds actual muscle), hanging leg raise (lower abs), plank (deep core), mountain climbers (cardio plus core combined).'},
+    {k:'Plank form',v:'Forearms down, body in a straight line from head to heels. Squeeze glutes AND abs simultaneously — not just one. Breathe normally, never hold your breath.'},
+    {k:'Cable crunch form',v:'Kneel facing cable machine, rope behind your head. Curl your torso down toward the floor — crunch ribs toward hips, not pulling with your arms.'},
+    {k:'Timeline',v:'At 16% BF you will see upper ab definition beginning. At 13-14% the full six-pack shows. 8 weeks gets you meaningfully started.'}]}
+};
+
+window.setGuide=function(g,btn){
+  document.querySelectorAll('#gd-seg .segb').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  var gdata=GD[g],h='<div class="ctitle">'+gdata.title+'</div>';
+  gdata.pts.forEach(function(p){h+='<div class="gpt"><div class="gd"></div><div><div class="gk">'+p.k+'</div><div class="gv">'+p.v+'</div></div></div>';});
+  document.getElementById('gcard').innerHTML=h;
+};
+setGuide('bench',document.querySelector('#gd-seg .segb'));
+
+})();
+</script>
+</body>
+</html>
